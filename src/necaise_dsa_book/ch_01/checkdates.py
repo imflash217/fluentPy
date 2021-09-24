@@ -1,6 +1,7 @@
-## Listing 1.1
-## Extracts the collection of birth dates from the user and determines
-## if each individual is at least 21 years of age
+"""Listing 1.1
+Extracts the collection of birth dates from the user and determines
+if each individual is at least 21 years of age
+"""
 
 from date import Date
 
@@ -10,14 +11,13 @@ def prompt_and_extract_date():
     Returns:
         Date or None (after the user has finished entering the date)
     """
-    print(f"Enter a date:\n")
-    month = int(input(f"month (0 to quit): "))
-    if month == 0:
-        return None
-    else:
+    print("Enter a date:\n")
+    month = int(input("month (0 to quit): "))
+    if month != 0:
         day = int(input("day: "))
         year = int(input("year: "))
         return Date(month, day, year)
+    return None
 
 
 def main():
