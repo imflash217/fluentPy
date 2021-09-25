@@ -66,6 +66,7 @@ class Array2D:
 
     def __init__(self, n_rows, n_cols):
         """Creates a 1D array to store the array refrence for every row"""
+        self.shape = (n_cols, n_rows)
         self._rows = Array(n_rows)
         for i in range(n_rows):
             self._rows[i] = Array(n_cols)
