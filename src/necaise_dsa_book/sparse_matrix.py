@@ -17,6 +17,7 @@ class SparseMatrix2D:
         self._num_rows = num_rows
         self._num_cols = num_cols
         self._element_list = []
+        self.shape = (self._num_rows, self._num_cols)
 
     def num_rows(self):
         """Returns the number of rows"""
@@ -35,6 +36,7 @@ class SparseMatrix2D:
         return None
 
     def __setitem__(self, idx_tuple, scalar):
+        """Sets the value of an element in the matrix at position `idx_tuple` to `scalar`"""
         assert len(idx_tuple) == 2, "Invalid number of indices. Needs a tuple of size 2"
         idx = self._find_position(idx_tuple[0], idx_tuple[1])
         if idx is not None:
@@ -46,6 +48,19 @@ class SparseMatrix2D:
             if scalar != 0.0:
                 new_element = _MatrixElement(idx_tuple[0], idx_tuple[1], scalar)
                 self._element_list.append(new_element)
+
+    def __add__(self, other):
+        assert self.shape == other.shape, "Matrix shapes not compatible for add op."
+        new_matrix = SparseMatrix2D(self.num_rows(), self.num_cols())
+        ## duplicate the LHS matrix. The elements are mutable;
+        ## so we must create new objects and not simply copy the references
+        for element in self._element_list:
+            duplicate_element = _MatrixElement(element.row, element.col, element.val)
+            new_matrix._element_list.append(duplicate_element)
+
+        for element in other._element_list:
+            new_val = new_matrix[element.row, element.col] + element.val
+            new_matrix[element.row, element.col] = new_val
 
     def scale_by(self, scalar):
         """Scales every element of the matrix by `scalar`"""
