@@ -107,3 +107,68 @@ class Array2D:
         """Resets all elements of the array with this value 'val'"""
         for row in self._rows:
             row.clear(val)
+
+
+class ArrayNd:
+    """N-dimensional Array"""
+
+    def __init__(self, *dims):
+        assert (
+            len(dims) > 1
+        ), f"The NdArray must have 2 or more dimensions. Got dims={len(dims)}"
+        self._dims = dims
+        size = 1  ## total number of elements in the array
+        for d in dims:
+            assert d > 0, "Dimension index must be > 0"
+            size *= d
+        self._elements = Array(size)  ## create a 1D array of size
+        self._factors = Array(len(dims))  ## 1D array to store the equation factors
+        self._compute_factors()
+
+    def num_dims(self):
+        """returns the number of dimensions in the array"""
+        return len(self._dims)
+
+    def length(self, dim):
+        """Returns the length of the array in a given dimension"""
+        assert 1 <= dim < len(self._dims), "Dimension component out of range"
+        return self._dims[dim - 1]
+
+    def clear(self, val):
+        """Clears the array by setting all elements to the given value"""
+        self._elements.clear(val)
+
+    def __getitem__(self, idx_tuple):
+        """Returns the value of the element stored in the array at `idx_tuple` location"""
+        assert len(idx_tuple) == self.num_dims(), "Invalid number of array indices"
+        idx = self._compute_index(idx_tuple)
+        assert idx is not None, "Array indices out-of-range"
+        return self._elements[idx]
+
+    def __setitem__(self, idx_tuple, val):
+        """Sets the value of the element at `idx_tuple` to `val`"""
+        assert len(idx_tuple) == self.num_dims(), "Invalid number of array indices"
+        idx = self._compute_index(idx_tuple)
+        assert idx is not None, "Array indices out of range"
+        self._elements[idx] = val
+
+    def _compute_index(self, idx_tuple):
+        """Compute the index in the 1D Array storage of the NdArray
+        from the Nd-index tuple representing the position the NdArray
+        """
+        offset = 0
+        for i, x in enumerate(idx_tuple):
+            if x < 0 or x >= self._dims[i]:
+                return None
+            offset += x * self._factors[i]
+        return offset
+
+    def _compute_factors(self):
+        """Computes the factors used to calculate the index
+        of an element in the 1D representation of Nd Array
+        """
+        self._factors[-1] = 1
+        i = self.num_dims() - 1
+        while i > 0:
+            self._factors[i - 1] = self._factors[i] * self._dims[i]
+            i -= 1
