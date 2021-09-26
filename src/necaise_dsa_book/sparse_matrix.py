@@ -49,7 +49,7 @@ class SparseMatrix2D:
                 new_element = _MatrixElement(idx_tuple[0], idx_tuple[1], scalar)
                 self._element_list.append(new_element)
 
-    def __add__(self, other):
+    def __add__(self, other: SparseMatrix2D):
         assert self.shape == other.shape, "Matrix shapes not compatible for add op."
         new_matrix = SparseMatrix2D(self.num_rows(), self.num_cols())
         ## duplicate the LHS matrix. The elements are mutable;
