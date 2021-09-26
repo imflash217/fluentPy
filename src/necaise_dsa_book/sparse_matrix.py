@@ -62,11 +62,6 @@ class SparseMatrix2D:
             new_val = new_matrix[element.row, element.col] + element.val
             new_matrix[element.row, element.col] = new_val
 
-    def scale_by(self, scalar):
-        """Scales every element of the matrix by `scalar`"""
-        for element in self._element_list:
-            element.val *= scalar
-
     def _find_position(self, row, col):
         """Used to find the index of specific matrix element (row, col) in the list
         of non-zero entries. None is returned if element is not found
@@ -75,3 +70,8 @@ class SparseMatrix2D:
             if element.row == row and element.col == col:
                 return i
         return None
+
+    def scale_by(self, scalar):
+        """Scales every element of the matrix by `scalar`"""
+        for element in self._element_list:
+            element.val *= scalar
