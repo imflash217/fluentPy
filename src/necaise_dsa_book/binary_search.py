@@ -15,11 +15,9 @@ def binary_search(sequence, target):
         if sequence[mid] == target:
             return mid
         elif sequence[mid] > target:
-            ## Step-5: Or does the target precede the midpoint
-            high = mid - 1
+            high = mid - 1  ## Step-5: Or does the target precede the midpoint
         else:
-            ## Step-6: Or does the target follow the midpoint
-            low = mid + 1
+            low = mid + 1  ## Step-6: Or does the target follow the midpoint
 
     ## Step-7: Finally, return False if the target is not found
     return False
