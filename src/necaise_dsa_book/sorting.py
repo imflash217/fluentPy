@@ -51,3 +51,25 @@ def insertion_sort(sequence, ascending=True):
             sequence[pivot] = sequence[pivot - 1]
             pivot -= 1
         sequence[pivot] = val
+
+
+def find_sorted_position(sequence, target, is_ascending=True):
+    """Finding the insert position of the target element in a already sorted sequence"""
+    low = 0
+    high = len(sequence) - 1
+    while low < high:
+        mid = (low + high) // 2
+        if sequence[mid] == target:
+            return mid
+        elif (is_ascending and target < sequence[mid]) or (
+            not is_ascending and target > sequence[mid]
+        ):
+            ## search in the left half
+            high = mid - 1
+        elif (is_ascending and target > sequence[mid]) or (
+            not is_ascending and target < sequence[mid]
+        ):
+            ## search in the right half
+            low = mid + 1
+    print(low, mid, high)
+    return low
