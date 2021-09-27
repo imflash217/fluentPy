@@ -15,3 +15,23 @@ def bubble_sort(sequence, ascending=True):
                 tmp = sequence[j]
                 sequence[j] = sequence[j + 1]
                 sequence[j + 1] = tmp
+
+
+def selection_sort(sequence, ascending=True):
+    """Inplace Sorts a sequence using Selection Sort Algorithm"""
+    n = len(sequence)
+    for i in range(n - 1):
+        ## Step-1: Suppose ith element is the smallest
+        small_idx = i
+        ## Step-2: Determine if any other element contains a smaller value
+        for j in range(i + 1, n):
+            if sequence[j] < sequence[small_idx]:
+                small_idx = j
+
+        ## Step-3: Swap the ith value and small_idx value
+        ## only if the smallest value is not already in its proper position.
+        ## Some implementations omit testing the value and always swap
+        if small_idx != i:
+            tmp = sequence[i]
+            sequence[i] = sequence[small_idx]
+            sequence[small_idx] = tmp
