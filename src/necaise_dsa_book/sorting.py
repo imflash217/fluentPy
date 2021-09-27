@@ -37,3 +37,17 @@ def selection_sort(sequence, ascending=True):
             tmp = sequence[i]
             sequence[i] = sequence[pivot]
             sequence[pivot] = tmp
+
+
+def insertion_sort(sequence, ascending=True):
+    n = len(sequence)
+    for i in range(1, n):
+        val = sequence[i]
+        pivot = i
+        while pivot > 0 and (
+            (ascending and val < sequence[pivot - 1])
+            or (not ascending and val > sequence[pivot - 1])
+        ):
+            sequence[pivot] = sequence[pivot - 1]
+            pivot -= 1
+        sequence[pivot] = val
